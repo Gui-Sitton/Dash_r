@@ -16,10 +16,7 @@ from dotenv import load_dotenv
 names = ["Guilherme Sitton"]
 usernames= ["GSitton"]
 secret_key = os.getenv("SECRET_KEY")
-file_path = Path(__file__).parent / "hashed_pw.json"
-# Agora, para recuperar as senhas hasheadas (em uma execução futura):
-with open(file_path, 'r') as file:
-    hashed_passwords = json.load(file)
+hashed_passwords =  os.getenv("HASH")
 
 
 authenticator = stauth.Authenticate(names, usernames, hashed_passwords, "Dados Rico", secret_key, cookie_expiry_days=7)
