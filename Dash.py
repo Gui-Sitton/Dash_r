@@ -15,31 +15,30 @@ from dotenv import load_dotenv
 # ----------------------------------------
 names = ["Guilherme Sitton"]
 usernames= ["GSitton"]
-secret_key = os.getenv("SECRET_KEY")
-hashed_passwords =  os.getenv("HASH")
+# Pegando os valores diretamente dos secrets do Streamlit
+secret_key = st.secrets["SECRET_KEY"]
+hashed_passwords = st.secrets["HASH"]
 
+authenticator = stauth.Authenticate(
+    names, usernames, hashed_passwords, "Dados Rico", "abcdef", cookie_expiry_days=7
+)
 
-authenticator = stauth.Authenticate(names, usernames, hashed_passwords, "Dados Rico", "abcdef", cookie_expiry_days=7)
 # ----------------------------------------
 # Login
 # ----------------------------------------
-name, authentication_status, username = authenticator.login("Login","main")
+name, authentication_status, username = authenticator.login("Login", "main")
 
 if authentication_status:
-    authenticator.logout("Logout","sidebar")
+    authenticator.logout("Logout", "sidebar")
     st.sidebar.success(f"Bem-vindo, {name}!")
 
     # Adicione seu dashboard aqui
     st.title("Dados Rico")
 
-
-    # Carregar variáveis do .env
-    load_dotenv()
-
     # Credenciais do Banco
-    USER = os.getenv("ORACLE_USER")
-    PASSWORD = os.getenv("ORACLE_PASSWORD")
-    DSN = os.getenv("ORACLE_DSN")
+    USER = st.secrets["ORACLE_USER"]
+    PASSWORD = st.secrets["ORACLE_PASSWORD"]
+    DSN = st.secrets["ORACLE_DSN"]
     
     # Conectar ao Oracle
     def conectar_oracle():
