@@ -7,7 +7,7 @@ from streamlit_folium import folium_static
 import json
 from pathlib import Path
 from folium.plugins import HeatMap
-import cx_Oracle
+import oracledb
 import os
 from dotenv import load_dotenv
 # ----------------------------------------
@@ -42,15 +42,14 @@ if authentication_status:
     
     # Conectar ao Oracle
     def conectar_oracle():
-        conn = cx_Oracle.connect(USER, PASSWORD, DSN)
-        return conn
+    conn = oracledb.connect(user=USER, password=PASSWORD, dsn=DSN)
+    return conn
 
-    # Consulta SQL
-    def buscar_dados():
-        conn = conectar_oracle()
-        df = pd.read_sql("SELECT * FROM VENDAS_RICO", conn)
-        conn.close()
-        return df
+def buscar_dados():
+    conn = conectar_oracle()
+    df = pd.read_sql("SELECT * FROM VENDAS_RICO", conn)
+    conn.close()
+    return df
     df = buscar_dados()
 
     #arrumar colunas
