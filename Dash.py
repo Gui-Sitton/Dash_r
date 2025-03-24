@@ -42,14 +42,14 @@ if authentication_status:
     
     # Conectar ao Oracle
     def conectar_oracle():
-    conn = oracledb.connect(user=USER, password=PASSWORD, dsn=DSN)
-    return conn
+        conn = oracledb.connect(user=USER, password=PASSWORD, dsn=DSN)
+        return conn
 
-def buscar_dados():
-    conn = conectar_oracle()
-    df = pd.read_sql("SELECT * FROM VENDAS_RICO", conn)
-    conn.close()
-    return df
+    def buscar_dados():
+        conn = conectar_oracle()
+        df = pd.read_sql("SELECT * FROM VENDAS_RICO", conn)
+        conn.close()
+        return df
     df = buscar_dados()
 
     #arrumar colunas
