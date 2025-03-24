@@ -19,7 +19,7 @@ secret_key = os.getenv("SECRET_KEY")
 hashed_passwords =  os.getenv("HASH")
 
 
-authenticator = stauth.Authenticate(names, usernames, hashed_passwords, "Dados Rico", secret_key, cookie_expiry_days=7)
+authenticator = stauth.Authenticate(names, usernames, hashed_passwords, "Dados Rico", "abcdef", cookie_expiry_days=7)
 # ----------------------------------------
 # Login
 # ----------------------------------------
