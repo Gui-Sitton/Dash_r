@@ -8,6 +8,7 @@ from pathlib import Path
 from folium.plugins import HeatMap
 import firebase_admin
 from firebase_admin import credentials, firestore
+import json
 # ----------------------------------------
 # Configuração de Autenticação (ATUALIZADA)
 # ----------------------------------------
