@@ -30,6 +30,7 @@ name, authentication_status, username = authenticator.login("Login", "main")
 if authentication_status:
     authenticator.logout("Logout", "sidebar")
     st.sidebar.success(f"Bem-vindo, {name}!")
+    st.write(st.secrets)
 
     # Adicione seu dashboard aqui
     st.title("Dados Rico")
