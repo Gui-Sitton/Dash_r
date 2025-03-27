@@ -4,12 +4,10 @@ import folium
 import plotly.express as px
 import pandas as pd
 from streamlit_folium import folium_static
-import json
 from pathlib import Path
 from folium.plugins import HeatMap
-import oracledb
-import os
-from dotenv import load_dotenv
+import firebase_admin
+from firebase_admin import credentials, firestore
 # ----------------------------------------
 # Configuração de Autenticação (ATUALIZADA)
 # ----------------------------------------
@@ -35,22 +33,20 @@ if authentication_status:
     # Adicione seu dashboard aqui
     st.title("Dados Rico")
 
-    # Credenciais do Banco
-    USER = st.secrets["ORACLE_USER"]
-    PASSWORD = st.secrets["ORACLE_PASSWORD"]
-    DSN = st.secrets["ORACLE_DSN"]
-    
-    # Conectar ao Oracle
-    def conectar_oracle():
-        conn = oracledb.connect(user=USER, password=PASSWORD, dsn=DSN)
-        return conn
+        # 🔹 Inicializar Firebase no Streamlit
+    if not firebase_admin._apps:
+        cred = credentials.Certificate(st.secrets["firebase"])
+        firebase_admin.initialize_app(cred)
 
-    def buscar_dados():
-        conn = conectar_oracle()
-        df = pd.read_sql("SELECT * FROM VENDAS_RICO", conn)
-        conn.close()
-        return df
-    df = buscar_dados()
+    db = firestore.client()
+
+    # 🔹 Função para carregar dados do Firestore
+    def carregar_dados():
+        docs = db.collection("dados").stream()
+        dados = [doc.to_dict() for doc in docs]
+        return pd.DataFrame(dados)
+    df = carregar_dados()
+
 
     #arrumar colunas
 
