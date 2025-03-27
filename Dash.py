@@ -35,16 +35,19 @@ if authentication_status:
 
         # 🔹 Inicializar Firebase no Streamlit
     if not firebase_admin._apps:
-        cred = credentials.Certificate(st.secrets["firebase"])
+        # Carregar as credenciais JSON do Streamlit secrets
+        firebase_cred = json.loads(st.secrets["firebase"]["credentials"])  # Carrega o JSON a partir da string
+        cred = credentials.Certificate(firebase_cred)
         firebase_admin.initialize_app(cred)
 
     db = firestore.client()
 
-    # 🔹 Função para carregar dados do Firestore
+    # Função para carregar dados do Firestore
     def carregar_dados():
         docs = db.collection("dados").stream()
         dados = [doc.to_dict() for doc in docs]
         return pd.DataFrame(dados)
+
     df = carregar_dados()
 
 
