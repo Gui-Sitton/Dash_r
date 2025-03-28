@@ -80,25 +80,27 @@ if authentication_status:
 
     # Dicionário com as coordenadas
     coordenadas = {
-        "Araraquara": (-21.7944, -48.1756),
-        "Fazenda Souza": (-29.0940, -51.1790),
-        "Antonio Prado": (-28.8583, -51.2883),
-        "Sao Gabriel": (-30.3333, -54.3167),
         "Caxias do Sul": (-29.1678, -51.1794),
-        "Alta Feliz": (-29.3825, -51.3125),
-        "Itati": (-29.4972, -50.1014),
-        "Sao Marcos": (-28.9678, -51.0697),
-        "Montenegro": (-29.6828, -51.4678),
-        "Senador Canedo": (-16.7086, -49.0917),
-        "Sao Simao": (-18.9969, -50.5478),
-        "Goiania": (-16.6864, -49.2643),
-        "Pinto Bandeira": (-29.0994, -51.4508),
-        "Auriflama": (-20.6831, -50.5578),
-        "Alvorada": (-29.9911, -51.0803),
+        "Alta Feliz": (-29.3919, -51.3228),
         "Porto Alegre": (-30.0346, -51.2177),
-        "Gaviao Peixoto": (-21.8361, -48.4958),
-        "Uruacu": (-14.5236, -49.1397)
+        "Fazenda Souza": (-29.1833, -51.0500),
+        "São Marcos": (-28.9675, -51.0678),
+        "Antônio Prado": (-28.8563, -51.2789),
+        "São Gabriel": (-30.3333, -54.3200),
+        "Alvorada": (-29.9914, -51.0809),
+        "Itati": (-29.4247, -50.1014),
+        "Pinto Bandeira": (-29.0972, -51.4500),
+        "Auriflama": (-20.6839, -50.5578),
+        "Araraquara": (-21.7845, -48.1780),
+        "Montenegro": (-29.6828, -51.4672),
+        "Senador Canedo": (-16.7083, -49.0914),
+        "São Simão": (-21.4736, -47.5511),
+        "Goiânia": (-16.6864, -49.2643),
+        "Flores da Cunha": (-29.0269, -51.1878),
+        "Gavião Peixoto": (-21.8361, -48.4950),
+        "Uruaçu": (-14.5233, -49.1397)
     }
+
 
     df['Latitude'] = df['Cidade'].map(lambda x: coordenadas.get(x, (None, None))[0])
     df['Longitude'] = df['Cidade'].map(lambda x: coordenadas.get(x, (None, None))[1])
@@ -133,7 +135,7 @@ if authentication_status:
     folium_static(m)
 
     # Treemap das Top 10 CIDADEs
-    st.header("Top 10 CIDADEs com Maiores Vendas")
+    st.header("Top 10 Cidades com Maiores Vendas")
     df_top10 = df_filtered.groupby('Cidade')['Valor de venda'].sum().reset_index()
     df_top10 = df_top10.sort_values(by='Valor de venda', ascending=False).head(10)
     fig_treemap = px.treemap(df_top10, path=['Cidade'], values='Valor de venda',
