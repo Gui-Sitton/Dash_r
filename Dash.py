@@ -19,7 +19,7 @@ secret_key = st.secrets["SECRET_KEY"]
 hashed_passwords = st.secrets["HASH"]
 
 authenticator = stauth.Authenticate(
-    names, usernames, hashed_passwords, "Dados Rico", "abcdef", cookie_expiry_days=7
+    names, usernames, hashed_passwords, "Dados Rico", secret_key, cookie_expiry_days=7
 )
 
 # ----------------------------------------
