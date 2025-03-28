@@ -38,9 +38,9 @@ if authentication_status:
         # 🔹 Inicializar Firebase no Streamlit
     if not firebase_admin._apps:
         # Carregar as credenciais JSON do Streamlit secrets
-        firebase_cred = st.secrets["firebase"]["credentials"]
-        cred = credentials.Certificate(json.loads(firebase_cred))
         
+        firebase_cred = st.secrets["firebase"]["credentials"]
+        cred = credentials.Certificate(json.loads(firebase_cred.replace('\n', '').replace('\\', '\\\\')))
         
         firebase_admin.initialize_app(cred)
 
