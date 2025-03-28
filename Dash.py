@@ -63,14 +63,14 @@ if authentication_status:
 
 
 
-    df = df[df["ID"] != 19]
-    df = df.dropna(subset=['VALOR_DE_VENDA'])
-    df['DATA_VENDA'] = pd.to_datetime(df['DATA_VENDA'], dayfirst=True)
-    df['MES_VENDA'] = df['DATA_VENDA'].dt.to_period('M').astype(str)
+    df = df[df["id"] != 19]
+    df = df.dropna(subset=['Valor de venda'])
+    df['Data Venda'] = pd.to_datetime(df['Data Venda'], dayfirst=True)
+    df['Mês Venda'] = df['Data Venda'].dt.to_period('M').astype(str)
 
     # Limpeza dos valores
-    df['VALOR_DE_VENDA'] = (
-        df['VALOR_DE_VENDA']
+    df['Valor de venda'] = (
+        df['Valor de venda']
             .str.strip()  # Remove espaços extras
             .str.replace(r'R\$|\.', '', regex=True)  # Remove "R$" e pontos de milhar
             .str.replace(',', '.')  # Substitui a vírgula decimal por ponto
@@ -100,60 +100,60 @@ if authentication_status:
         "Uruacu": (-14.5236, -49.1397)
     }
 
-    df['Latitude'] = df['CIDADE'].map(lambda x: coordenadas.get(x, (None, None))[0])
-    df['Longitude'] = df['CIDADE'].map(lambda x: coordenadas.get(x, (None, None))[1])
+    df['Latitude'] = df['Cidade'].map(lambda x: coordenadas.get(x, (None, None))[0])
+    df['Longitude'] = df['Cidade'].map(lambda x: coordenadas.get(x, (None, None))[1])
     df = df.dropna(subset=['Latitude', 'Longitude'])
 
     # Filtros Interativos
     st.sidebar.header("Filtros")
-    estados = st.sidebar.multiselect("Selecione os Estados", df['ESTADO'].unique(), key="estados")
-    clientes = st.sidebar.multiselect("Selecione os Tipos de Clientes", df['TIPO_CLIENTE'].unique(), key="clientes")
-    produtos = st.sidebar.multiselect("Selecione os Produtos", df['PRODUTO'].unique(), key="produtos")
+    estados = st.sidebar.multiselect("Selecione os Estados", df['Estado'].unique(), key="estados")
+    clientes = st.sidebar.multiselect("Selecione os Tipos de Clientes", df['Tipo Cliente'].unique(), key="clientes")
+    produtos = st.sidebar.multiselect("Selecione os Produtos", df['Produto'].unique(), key="produtos")
 
     # Criação do filtro de data na sidebar
-    start_date = st.sidebar.date_input("Data de Início", df['DATA_VENDA'].min())
-    end_date = st.sidebar.date_input("Data de Fim", df['DATA_VENDA'].max())
+    start_date = st.sidebar.date_input("Data de Início", df['Data Venda'].min())
+    end_date = st.sidebar.date_input("Data de Fim", df['Data Venda'].max())
 
     # Filtrando o dataframe com base nas datas selecionadas
-    df_filtered = df[(df['DATA_VENDA'] >= pd.to_datetime(start_date)) & (df['DATA_VENDA'] <= pd.to_datetime(end_date))]
+    df_filtered = df[(df['Data Venda'] >= pd.to_datetime(start_date)) & (df['Data Venda'] <= pd.to_datetime(end_date))]
 
     # Aplicando os outros filtros
     if estados:
-        df_filtered = df_filtered[df_filtered['ESTADO'].isin(estados)]
+        df_filtered = df_filtered[df_filtered['Estado'].isin(estados)]
     if clientes:
-        df_filtered = df_filtered[df_filtered['TIPO_CLIENTE'].isin(clientes)]
+        df_filtered = df_filtered[df_filtered['Tipo Cliente'].isin(clientes)]
     if produtos:
-        df_filtered = df_filtered[df_filtered['PRODUTO'].isin(produtos)]
+        df_filtered = df_filtered[df_filtered['Produto'].isin(produtos)]
 
     # Mapa de Calor
     st.header("Mapa de Calor de Vendas")
     m = folium.Map(location=[-15.788497, -47.879873], zoom_start=4)
-    heat_data = [[row['Latitude'], row['Longitude'], row['VALOR_DE_VENDA']] for _, row in df_filtered.iterrows()]
+    heat_data = [[row['Latitude'], row['Longitude'], row['Valor de venda']] for _, row in df_filtered.iterrows()]
     HeatMap(heat_data).add_to(m)
     folium_static(m)
 
     # Treemap das Top 10 CIDADEs
     st.header("Top 10 CIDADEs com Maiores Vendas")
-    df_top10 = df_filtered.groupby('CIDADE')['VALOR_DE_VENDA'].sum().reset_index()
-    df_top10 = df_top10.sort_values(by='VALOR_DE_VENDA', ascending=False).head(10)
-    fig_treemap = px.treemap(df_top10, path=['CIDADE'], values='VALOR_DE_VENDA',
-                          color='VALOR_DE_VENDA',
+    df_top10 = df_filtered.groupby('Cidade')['Valor de venda'].sum().reset_index()
+    df_top10 = df_top10.sort_values(by='Valor de venda', ascending=False).head(10)
+    fig_treemap = px.treemap(df_top10, path=['Cidade'], values='Valor de venda',
+                          color='Valor de venda',
                           color_continuous_scale='blues')
     st.plotly_chart(fig_treemap)
 
     st.header("Tendência de Vendas ao Longo do Tempo")
-    vendas_por_data = df_filtered.groupby('DATA_VENDA').agg({'VALOR_DE_VENDA': 'sum'}).reset_index()
-    fig = px.line(vendas_por_data, x='DATA_VENDA', y='VALOR_DE_VENDA', title="Vendas ao Longo do Tempo")
+    vendas_por_data = df_filtered.groupby('Data Venda').agg({'Valor de venda': 'sum'}).reset_index()
+    fig = px.line(vendas_por_data, x='Data Venda', y='Valor de venda', title="Vendas ao Longo do Tempo")
     st.plotly_chart(fig)
 
     st.header("Distribuição de Vendas por Produto")
-    vendas_por_produto = df_filtered.groupby('PRODUTO').agg({'VALOR_DE_VENDA': 'sum'}).reset_index()
-    fig = px.bar(vendas_por_produto, x='PRODUTO', y='VALOR_DE_VENDA', title="Vendas por Produto")
+    vendas_por_produto = df_filtered.groupby('Produto').agg({'Valor de venda': 'sum'}).reset_index()
+    fig = px.bar(vendas_por_produto, x='Produto', y='Valor de venda', title="Vendas por Produto")
     st.plotly_chart(fig)
 
     st.header("Distribuição de Vendas por Cliente")
-    vendas_por_cliente = df_filtered.groupby('CLIENTE').agg({'VALOR_DE_VENDA': 'sum'}).reset_index()
-    fig = px.pie(vendas_por_cliente, names='CLIENTE', values='VALOR_DE_VENDA', title="Vendas por Cliente")
+    vendas_por_cliente = df_filtered.groupby('Cliente').agg({'Valor de venda': 'sum'}).reset_index()
+    fig = px.pie(vendas_por_cliente, names='Cliente', values='Valor de venda', title="Vendas por Cliente")
     st.plotly_chart(fig)
 
     st.header("Tabela de Dados")
