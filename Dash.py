@@ -40,11 +40,11 @@ if authentication_status:
         # Carregar as credenciais JSON do Streamlit secrets
         
         # Em Dash.py, substitua:
-    firebase_cred = st.secrets["firebase"]["credentials"]
-    cred = credentials.Certificate(json.loads(firebase_cred))  # Remova replace()
+        firebase_cred = st.secrets["firebase"]["credentials"]
+        cred = credentials.Certificate(json.loads(firebase_cred))  # Remova replace()
 
     # Ou, carregue como dicionário diretamente:
-    cred = credentials.Certificate(st.secrets["firebase"].to_dict())
+        cred = credentials.Certificate(st.secrets["firebase"].to_dict())
         
         firebase_admin.initialize_app(cred)
 
