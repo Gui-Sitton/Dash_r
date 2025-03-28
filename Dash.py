@@ -44,7 +44,7 @@ if authentication_status:
         cred = credentials.Certificate(json.loads(firebase_cred))  # Remova replace()
 
     # Ou, carregue como dicionário diretamente:
-        cred = credentials.Certificate(st.secrets["firebase"].to_dict())
+        #cred = credentials.Certificate(st.secrets["firebase"].to_dict())
         
         firebase_admin.initialize_app(cred)
 
