@@ -12,8 +12,8 @@ import json
 # ----------------------------------------
 # Configuração de Autenticação (ATUALIZADA)
 # ----------------------------------------
-names = ["Guilherme Sitton","Agenor de Carvalho","Helana Onzi"]
-usernames= ["GSitton","ACarvalho","HOnzi"]
+names = ["Guilherme Sitton","Agenor de Carvalho","Helana Onzi", "Márcio Onzi"]
+usernames= ["GSitton","ACarvalho","HOnzi","MOnzi"]
 # Pegando os valores diretamente dos secrets do Streamlit
 secret_key = st.secrets["SECRET_KEY"]
 hashed_passwords = st.secrets["HASH"]
