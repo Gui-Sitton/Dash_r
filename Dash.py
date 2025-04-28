@@ -1,4 +1,4 @@
-import streamlit as st
+xADQmport streamlit as st
 import streamlit_authenticator as stauth
 import folium
 import plotly.express as px
@@ -79,27 +79,29 @@ if authentication_status:
     )
 
     # Dicionário com as coordenadas
-    coordenadas = {
-        "Caxias do Sul": (-29.1678, -51.1794),
-        "Alta Feliz": (-29.3919, -51.3228),
-        "Porto Alegre": (-30.0346, -51.2177),
+      coordenadas = {
+        "Araraquara": (-21.7845, -48.1780),
         "Fazenda Souza": (-29.1833, -51.0500),
-        "São Marcos": (-28.9675, -51.0678),
         "Antônio Prado": (-28.8563, -51.2789),
         "São Gabriel": (-30.3333, -54.3200),
-        "Alvorada": (-29.9914, -51.0809),
+        "Caxias do Sul": (-29.1678, -51.1794),
+        "Alta Feliz": (-29.3919, -51.3228),
         "Itati": (-29.4247, -50.1014),
-        "Pinto Bandeira": (-29.0972, -51.4500),
-        "Auriflama": (-20.6839, -50.5578),
-        "Araraquara": (-21.7845, -48.1780),
+        "São Marcos": (-28.9675, -51.0678),
         "Montenegro": (-29.6828, -51.4672),
         "Senador Canedo": (-16.7083, -49.0914),
-        "São Simão": (-21.4736, -47.5511),
+        "São Simão ": (-21.4736, -47.5511),
         "Goiânia": (-16.6864, -49.2643),
-        "Flores da Cunha": (-29.0269, -51.1878),
         "Gavião Peixoto": (-21.8361, -48.4950),
-        "Uruaçu": (-14.5233, -49.1397)
+        "Uruaçu": (-14.5233, -49.1397),
+        "Florianópolis": (-27.5954, -48.5480),
+        "Pinto Bandeira": (-29.0972, -51.4500),
+        "Auriflama": (-20.6839, -50.5578),
+        "Alvorada": (-29.9914, -51.0809),
+        "Porto Alegre": (-30.0346, -51.2177),
+        "Flores da Cunha": (-29.0269, -51.1878)
     }
+
 
 
     df['Latitude'] = df['Cidade'].map(lambda x: coordenadas.get(x, (None, None))[0])
