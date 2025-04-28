@@ -69,13 +69,15 @@ if authentication_status:
     df['Mês Venda'] = df['Data Venda'].dt.to_period('M').astype(str)
 
     # Limpeza dos valores
+    # Novo código (corrigido)
     df['Valor de venda'] = (
         df['Valor de venda']
-            .str.strip()  # Remove espaços extras
-            .str.replace(r'R\$|\.', '', regex=True)  # Remove "R$" e pontos de milhar
-            .str.replace(',', '.')  # Substitui a vírgula decimal por ponto
-            .astype(float)  # Converte para float
-            .astype(int)  # Converte para int (removendo casas decimais)
+            .str.strip()
+            .str.replace(r'[^0-9,]', '', regex=True)  # Remove tudo exceto números e vírgulas
+            .str.replace(',', '.')
+            .replace('', 0)  # Substitui strings vazias por NaN  # Remove linhas com NaN
+            .astype(float)
+            .astype(int)
     )
 
     # Dicionário com as coordenadas
