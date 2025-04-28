@@ -1,4 +1,4 @@
-xADQmport streamlit as st
+import streamlit as st
 import streamlit_authenticator as stauth
 import folium
 import plotly.express as px
