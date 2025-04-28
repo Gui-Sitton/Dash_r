@@ -81,7 +81,7 @@ if authentication_status:
     )
 
     # Dicionário com as coordenadas
-      coordenadas = {
+    coordenadas = {
         "Araraquara": (-21.7845, -48.1780),
         "Fazenda Souza": (-29.1833, -51.0500),
         "Antônio Prado": (-28.8563, -51.2789),
